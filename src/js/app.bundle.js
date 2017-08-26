@@ -19136,11 +19136,11 @@ return $.effects.define( "size", function( options, done ) {
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(0);
-__webpack_require__(31);
+/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(31);
 __webpack_require__(98);
 window.fancybox = __webpack_require__(111)($);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 31 */
