@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "bootstrap": "3.3.6",
-    "fancybox": "^3.0.0",
+    "fancybox": "^2.1.5",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.2.1",
-    "jquery-ui": "^1.12.1"
+    "jquery": "^1.11.3",
+    "jquery-ui": "1.12.1"
   }
 }
