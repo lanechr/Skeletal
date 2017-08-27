@@ -14,7 +14,9 @@ vendors.jqueryUI = vendors.src + 'jquery-ui-dist/jquery-ui.js';
 
 gulp.task('js', function() {
 		gulp.src([vendors.jquery, vendors.bootstrap, vendors.fancybox, vendors.jqueryUI])
+		.pipe(sourcemaps.init())
 	    .pipe(concat('vendor.js'))
+			.pipe(sourcemaps.write())
 	    .pipe(gulp.dest('./src/js'));
 });
 
