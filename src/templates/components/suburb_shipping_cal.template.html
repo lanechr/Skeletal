@@ -1,0 +1,75 @@
+[%if [@config:show_shipping_calc@] %]
+[%site_value id:'footer_javascript'%]
+    <script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var suburbCalcInit = function() {
+            $.postcode_selectorInit({
+                'id':'shloc_selector',
+                'country_id':'shloc_country',
+                'city_id':'shloc_city',
+                'state_id':'shloc_state',
+                'zip_id':'zip'
+            });
+        }
+        var refreshCalc = function(){
+            $.load_ajax_template('_buying_options', {
+                'showloading': '1',
+                'qty': $('#n_qty').val() ,
+                'ship_city': $('#shloc_city').val(),
+                'ship_country': $('#shloc_country').val(),
+                'ship_state': $('#shloc_state').val(),
+                'ship_zip': $('#zip').val(),
+
+            },{
+                'onLoad': suburbCalcInit
+            });
+        }
+        $(document).ready(function() {
+            suburbCalcInit();
+        });
+    });
+    </script>
+[%/site_value%]
+<div class="panel panel-default" id="shipbox">
+	<div class="panel-heading">
+		<h3 class="panel-title">Calculate Shipping</h3>
+	</div>
+	<div class="panel-body n-wrapper-form-control">
+		<p><strong>Enter qty and post code to calculate:</strong></p>
+		<input type="hidden" id="shloc_country" value="AU" />
+		<input type="hidden" name="shloc_state" id="shloc_state" value="[%SESSION id:'ship_state'%][%END SESSION%]" />
+		<div class="row row-padded">
+			<div class="col-xs-12 col-md-3">
+				<input type="text" name="input" id="n_qty" style="width:100%" value="[@qty@]" class="form-control" placeholder="Qty">
+			</div>
+			<div class="col-xs-12 col-md-3">
+				<input type="text" name="input" id="zip" style="width:100%" value="[%SESSION id:'ship_zip'%][%END SESSION%]" class="form-control" placeholder="Post Code">
+			</div>
+			<div class="col-xs-12 col-md-3">
+				<span id="shloc_selector"></span>
+				<input type="text" id="shloc_city" name="shloc_city" value="[%SESSION id:'ship_city'%][%END SESSION%]" size="50" maxlength="50" />
+			</div>
+			<div class="col-xs-12 col-md-3">
+				<button type="button" class="btn btn-primary btn-block" onClick="refreshCalc()" title="Calculate"><i class="icon-refresh"></i> Calculate Shipping</button>
+			</div>
+		</div>
+		[%shipping_methods sortby:'sortorder' sku:'[@SKU@]' qty:'[@qty@]' zip:'[@ship_zip@]' country:'[@ship_country@]' city:'[@ship_city@]'%]
+			[%PARAM *header%]
+			<br />
+			[%END PARAM%]
+			[%PARAM *body%]
+			<hr />
+			<strong>[@shipping_method@]</strong> - [%format type:"currency"%][@cost@][%END format%]<br />
+			<i class="text-muted">[@shipping_description@]</i> [%END PARAM%] [%PARAM *footer%]
+			</p>
+			[%END PARAM%]
+			[%PARAM *ifempty%]
+			[%if [@ship_zip@]%]
+			<p class="alert alert-danger alert-shipping-error">Shipping not available to selected location.</p>
+			[%/if%]
+			[%END PARAM%]
+		[%END shipping_methods%]
+	</div>
+</div>
+[%/if%]
+<!-- End Shipping Options -->
