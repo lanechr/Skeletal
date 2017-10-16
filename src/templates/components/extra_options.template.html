@@ -1,0 +1,53 @@
+<!-- PRODUCT OPTIONS -->
+[%extra_options id:'[@SKU@]'%]
+  [%PARAM *header%]
+  <table class="table table-striped table-bordered">
+    <tr>
+      <th colspan="2">
+        Available Options
+      </th>
+    </tr>
+    [%END PARAM%][%PARAM *number_option%]
+      <tr>
+        <td>
+          <label>[@name@]</label>
+        </td>
+        <td>
+          <input name="extra[@count@]" class="form-control" id="productextra[@count@]" rel="[@SKU@]" value="">
+        </td>
+      </tr>
+    [%END PARAM%][%PARAM *text_option%]
+      <tr>
+        <td>
+          <label>[@name@]</label>
+        </td>
+        <td>
+          <textarea name="extra[@count@]" [%if [@length@]%]maxlength="[@length@]"[%/if%]class="form-control" id="productextra[@count@]" rel="[@SKU@]" cols="20"></textarea>
+        </td>
+      </tr>
+    [%END PARAM%]
+    [%PARAM *select_option%]
+      <tr>
+        <td>
+          <label>[@name@]</label>
+        </td>
+        <td>
+          <select name="extra[@count@]" class="form-control" id="productextra[@count@]" rel="[@SKU@]">
+            [@choices@]
+          </select>
+        </td>
+      </tr>
+    [%END PARAM%]
+    [%PARAM *choices%]
+      <option type="text" class="form-control" value="[@option_id@]">[%nohtml%][@text@][%end nohtml%]
+      [%DATA id:'price' if:'!=' value:'0'%]
+        (+ [%FORMAT type:'currency'%][@price@][%END FORMAT%])
+      [%END DATA%]
+      </option>
+    [%END PARAM%]
+    [%PARAM *footer%]
+    <input type="hidden" name="extras" value="[@total_options@]"/>
+  </table>
+  <hr />
+  [%END PARAM%]
+[%END extra_options%]

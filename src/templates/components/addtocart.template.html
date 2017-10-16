@@ -1,0 +1,35 @@
+<form class="buying-options" autocomplete="off" role="form" aria-label="Product Purchase Form">
+  <input type="hidden" id="model[@rndm@][@SKU@]" name="model" value="[@model@]">
+  <input type="hidden" id="thumb[@rndm@][@SKU@]" name="thumb" value="[@thumb@]">
+  <input type="hidden" id="sku[@rndm@][@SKU@]" name="sku" value="[@SKU@]">
+  <div class="row btn-stack">
+    <div class="col-xs-12 col-md-4">
+      <input type="number" min="[@min_qty@]" class="form-control qty input-lg" id="qty[@rndm@][@SKU@]" name="qty" aria-label="qty" value="[%data id:'min_qty' if:'ne' value:'0' %][@min_qty@][%end data%][%data id:'min_qty' if:'eq' value:'0' %]1[%end data%]" size="2"/>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      [%IF [@store_quantity@] > 0 AND [@preorder@] %]
+      <button type="button" title="Add [@model@] to Cart" class="addtocart btn btn-warning btn-block btn-lg btn-loads" data-loading-text="<i class='fa fa-spinner fa-spin' style='font-size: 14px'></i>" rel="[@rndm@][@SKU@]"><i class="fa fa-clock-o icon-white" aria-hidden="true"></i> Pre-Order Now</button>
+      [%ELSEIF [@store_quantity@] > 0 AND ![@preorder@] %]
+      <button type="button" title="Add [@model@] to Cart" class="addtocart btn btn-success btn-block btn-lg btn-loads" data-loading-text="<i class='fa fa-spinner fa-spin' style='font-size: 14px'></i>" rel="[@rndm@][@SKU@]"><i class="fa fa-shopping-cart icon-white" aria-hidden="true"></i> Add to Cart</button>
+      [%ELSEIF [@store_quantity@] < 1 AND [@config:ALLOW_NOSTOCK_CHECKOUT@] %]
+      <button type="button" title="Add [@model@] to Cart" class="addtocart btn btn-warning btn-block btn-lg btn-loads" data-loading-text="<i class='fa fa-spinner fa-spin' style='font-size: 14px'></i>" rel="[@rndm@][@SKU@]"><i class="fa fa-clock-o icon-white" aria-hidden="true"></i> Backorder</button>
+      [%ELSE%]
+      <a class="btn btn-info btn-lg btn-block" title="Notify Me When [@model@] Is Back In Stock" data-toggle="modal" data-target="#notifymodal"><i class="fa fa-envelope" aria-hidden="true"></i> Notify Me</a>
+      [%END IF%]
+    </div>
+    <div class="col-xs-12 col-md-4">
+      [%if [@config:show_wishlist@]%]
+        <div class="product-wishlist">
+          [%IN_WISHLIST id:'[@SKU@]' %]
+          [%PARAM if_true%]
+            <a class="wishlist_toggle btn btn-lg btn-block btn-warning" role="button" title="Remove To Wishlist" rel="[@SKU@]"><span class="remove" rel="wishlist_text[@SKU@]"><i class="fa fa-star" aria-hidden="true"></i></span></a>
+          [%END PARAM%]
+          [%PARAM if_false%]
+            <a class="wishlist_toggle btn btn-default btn-lg btn-block" role="button" title="Add To Wishlist" rel="[@SKU@]"><span class="add" rel="wishlist_text[@SKU@]"><i class="fa fa-star-o" aria-hidden="true"></i> Wishlist</span></a>
+          [%END PARAM%]
+          [%END IN_WISHLIST%]
+        </div>
+      [%/if%]
+    </div>
+  </div>
+</form>

@@ -81,39 +81,7 @@
 					</ul>
 				</div>
 				<div class="navbar-collapse collapse navbar-responsive-collapse">
-					<ul class="nav navbar-nav">
-						[%cache type:'menu' id:'header-content-menu'%]
-							[%menu id:'web_header'%]
-								[%param *level_1%]
-									<li class="[%if [@next_level@]%]dropdown dropdown-hover [%/if%] [%if [@css_class@]%] [@css_class@][%/if%]"> <a href="[@url@]" [%if [@next_level@]%]class="dropdown-toggle"[%/if%]>[@name@] [%if [@next_level@]%]<span class="caret"></span>[%/if%]</a>
-										[%if [@next_level@]%]
-											<ul class="dropdown-menu">
-												[@next_level@]
-											</ul>
-										[%/if%]
-									</li>
-									[%/param%]
-								[%param *level_2%]
-									<li class="[%if [@next_level@]%]dropdown dropdown-hover [%/if%] [%if [@css_class@]%] [@css_class@][%/if%]"> <a href="[@url@]" class="nuhover dropdown-toggle">[@name@]</a>
-										[%if [@next_level@]%]
-											<ul class="dropdown-menu dropdown-menu-horizontal">
-												[@next_level@]
-											</ul>
-										[%/if%]
-									</li>
-									[%/param%]
-								[%param *level_3%]
-									<li class="[%if [@next_level@]%]dropdown dropdown-hover [%/if%] [%if [@css_class@]%] [@css_class@][%/if%]"> <a href="[@url@]">[@name@]</a>
-										[%if [@next_level@]%]
-											<ul class="dropdown-menu dropdown-menu-horizontal">
-												[@next_level@]
-											</ul>
-										[%/if%]
-									</li>
-								[%/param%]
-							[%/menu%]
-						[%/ cache%]
-					</ul>
+						[%load_template file:'components/user_menu.template.html'/%]
 					<ul class="nav navbar-nav navbar-right hidden-xs">
 						<li class="lv1-li navbar-right dropdown dropdown-hover"> <a href="[%url page:'account'/%]" [%if [@next_level@]%]class="dropdown-toggle" data-toggle="dropdown"[%/if%] aria-label="Account dropdown"><i class="fa fa-user"></i> <span class="visible-lg visible-inline-lg">My Account</span> <span class="caret"></span></a>
 							<ul class="dropdown-menu pull-right">

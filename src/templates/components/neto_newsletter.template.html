@@ -1,0 +1,16 @@
+<h4>Stay In Touch</h4>
+[%if [@config:show_newsletter_subscribe@]%]
+  <p>Subscribe to our newsletter:</p>
+  <form method="post" action="[%URL type:'page' id:'subscribe' https:'1'%][%END URL%]" role="form" aria-label="Newsletter Subscribe Form">
+    <input type="hidden" name="list_id" value="1">
+    <input type="hidden" name="opt_in" value="y">
+    <div class="input-group" role="group">
+      <input name="inp-email" class="form-control" type="email" value="[%nohtml%][@inp-email@][%/nohtml%]" placeholder="Email Address" required aria-label="Email Address"/>
+      <input name="inp-submit" type="hidden" value="y" />
+      <input name="inp-opt_in" type="hidden" value="y" />
+      <span class="input-group-btn">
+        <input class="btn btn-default" type="submit" value="Subscribe" data-loading-text="<i class='fa fa-spinner fa-spin' style='font-size: 14px'></i>"/>
+      </span>
+    </div>
+  </form>
+[%/if%]

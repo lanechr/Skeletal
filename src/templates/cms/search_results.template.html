@@ -1,21 +1,6 @@
 [%SET [@page_type@]='category'/%]
 [%load_template file:'cms/includes/sidebar.template.html'/%]
-	[%breadcrumb%]
-		[%param *header%]
-			<ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
-				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<a href="[@config:home_url@]" itemprop="item"><span itemprop="name">Home</span></a>
-				</li>
-		[%/param%]
-		[%param *body%]
-			<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-				<a href="[@url@]" itemprop="item"><span itemprop="name">[@name@]</span></a>
-			</li>
-		[%/param%]
-		[%param *footer%]
-			</ul>
-		[%/param%]
-	[%/breadcrumb%]
+[%load_template file:'components/breadcrumb.template.html'/%]
 	[%FILTER ID:'keywords' if:'ne' value:''%]
 		<h1 class="page-header">
 			Search [@config:website_name@]

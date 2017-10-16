@@ -1,21 +1,6 @@
 [%SET [@page_type@]='category'/%]
 [%load_template file:'cms/includes/sidebar.template.html'/%]
-[%breadcrumb%]
-	[%PARAM *header%]
-		<ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
-			<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-				<a href="[@config:home_url@]" itemprop="item"><span itemprop="name">Home</span></a>
-			</li>
-	[%/PARAM%]
-	[%PARAM *body%]
-		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-			<a href="[@url@]" itemprop="item"><span itemprop="name">[@name@]</span></a>
-		</li>
-	[%/PARAM%]
-	[%PARAM *footer%]
-		</ul>
-	[%/PARAM%]
-[%/breadcrumb%]
+[%load_template file:'components/breadcrumb.template.html'/%]
 <h1 class="page-header">
 	[%url_info name:'page_heading' if:'eq' value:''%]
 		[%PARAM if_true%]
@@ -79,101 +64,7 @@
 		<hr>
 	[%/if%]
 [%/if%]
-[%THUMB_LIST type:'products' limit:'[@config:THUMB_LIMIT@]'%]
-	[%PARAM template%][%VIEWBY type:'products' default:'[@templatethumb@]'%][%/VIEWBY%][%/PARAM%]
-	[%PARAM *header%]
-	<div class="row sort_container">
-		<div class="col-xs-4 col-sm-7 col-md-4">
-			<script language="javascript" type="text/javascript">
-				function viewtype(view) {
-					var f=document.viewForm;
-					f['viewby'].value=view;
-					f.submit();
-				}
-			</script>
-			<form method="get" name="viewForm" action="[@config:CURRENT_URL@]" class="hidden">
-				<input name="rf" type="hidden" value="[%FILTER_CODE%][%/FILTER_CODE%]">
-				<input name="viewby" type="hidden" value=""/>
-			</form>
-			<div class="viewby btn-group">
-				<a href="javascript:viewtype('');" class="btn btn-default [%VIEWBY type:'products' if:'ne' value:'list' if_true:'active' if_false:''%][%/VIEWBY%]" rel="nofollow" aria-label="Thumbnail view">
-					<i class="fa fa-th"></i>
-				</a>
-				<a href="javascript:viewtype('list');" class="btn btn-default [%VIEWBY type:'products' if:'eq' value:'list' if_true:'active' if_false:''%][%/VIEWBY%]" rel="nofollow" aria-label="List view">
-					<i class="fa fa-th-list"></i>
-				</a>
-			</div>
-		</div>
-		<div class="col-md-4 hidden-xs hidden-sm">
-			<div class="btn-text">
-				<strong>[@total_results@]</strong> Product[%if [@total_results@] > 1%]s[%/if%]&nbsp;Found
-			</div>
-		</div>
-		<div class="col-xs-8 col-sm-5 col-md-4">
-			<form method="get" class="form-horizontal" action="[@config:CURRENT_URL@]">
-				<input name="rf" type="hidden" value="[%FILTER_CODE%][%/FILTER_CODE%]">
-				<div class="form-group">
-					<label class="control-label col-xs-2">Sort</label>
-					<div class="col-xs-10">
-						<select name="sortby" onChange="return this.form.submit();" class="form-control" aria-label="Sort products by">
-							<option value="popular" [%SORTBY type:'products' if:'eq' value:'popular'%]selected[%/SORTBY%]>
-								Most Popular
-							</option>
-							<option value="name" [%SORTBY type:'products' if:'eq' value:'name'%]selected[%/SORTBY%]>
-								Name
-							</option>
-							<option value="SKU" [%SORTBY type:'products' if:'eq' value:'SKU'%]selected[%/SORTBY%]>
-								SKU
-							</option>
-							<option value="lowest_price" [%SORTBY type:'products' if:'eq' value:'lowest_price'%]selected[%/SORTBY%]>
-								Lowest Price
-							</option>
-							<option value="highest_price" [%SORTBY type:'products' if:'eq' value:'highest_price'%]selected[%/SORTBY%]>
-								Highest Price
-							</option>
-						</select>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<hr>
-		</div>
-	</div>
-	<div class="[%VIEWBY type:'products' if:'eq' value:'list' if_true:'thumb_list' if_false:'thumb'%][%/VIEWBY%]">
-		<section class="row" aria-label="Products In Category">
-		[%/PARAM%]
-		[%PARAM *footer%]
-		</section>
-	</div>
-	[%IF [@total_results@] > [@config:thumb_limit@]%]
-		<div class="row">
-			<div class="col-xs-12">
-				<hr />
-				<div class="text-center">
-					<ul class="pagination" role="navigation" aria-label="Pagination Navigation">
-						[%paging limit:'3'%]
-							[%PARAM *previous_page%]<li><a href="[@URL@]" aria-label="Go Back 1 Page"><i class="fa fa-chevron-left"></i></a></li>[%/PARAM%]
-							[%PARAM *goback_pages%]<li><a href="[@URL@]"  aria-label="Go To Page [@PAGE@]">[@PAGE@]</a></li>[%/PARAM%]
-							[%PARAM *current_page%]<li class="active"><a href="[@URL@]" aria-label="Current Page">[@PAGE@]</a></li>[%/PARAM%]
-							[%PARAM *gonext_pages%]<li><a href="[@URL@]" aria-label="Go To Page [@PAGE@]">[@PAGE@]</a></li>[%/PARAM%]
-							[%PARAM *next_page%]<li><a href="[@URL@]" aria-label="Go Forward 1 Page"><i class="fa fa-chevron-right"></i></a></li>[%/PARAM%]
-						[%/paging%]
-					</ul>
-				</div>
-				<hr />
-			</div>
-		</div>
-	[%/IF%]
-	[%/PARAM%]
-	[%PARAM *ifempty%]
-		<div class="row">
-			<div class="col-xs-12">
-				<p>This category is empty! Please try another category or use our search function to find what you are looking for. If you require further assistance please contact us.</p>
-			</div>
-		</div>
-	[%/PARAM%]
-[%/THUMB_LIST%]
+
+[%load_template file:'components/product_listings.template.html'/%]
+
 </div>
