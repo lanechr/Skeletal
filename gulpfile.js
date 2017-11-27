@@ -1,5 +1,8 @@
 var gulp = require('gulp');
 	less = require('gulp-less'),
+	babel = require('gulp-babel'),
+	concat = require('gulp-concat'),
+	uglify = require('gulp-uglify'),
 	path = require('path'),
 	fs = require('fs'),
 	del = require('del'),
@@ -17,7 +20,10 @@ function html() {
 
 function js() {
 	var out = config.dist + 'js',
-		files = gulp.src(config.src + 'js/**/*.js');
+		files = gulp.src(config.src + 'js/**/*.js')
+					.pipe(babel())
+					.pipe(uglify())
+					.pipe(concat('custom.min.js'))
 	return files.pipe(gulp.dest(out));
 }
 
