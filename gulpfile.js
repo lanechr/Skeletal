@@ -3,15 +3,29 @@ var gulp = require('gulp');
 	babel = require('gulp-babel'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
+	sftp = require('gulp-sftp'),
 	path = require('path'),
 	fs = require('fs'),
 	del = require('del'),
 	config = require('./config.json')
 
+var styles = gulp.series(gulpLess, css);
+var build = gulp.series(clean, styles, gulp.parallel(html, js));
+var upload = gulp.series(build, upload);
+
+gulp.task('build', build);
+build.description = "builds theme in the dist directory";
+
+gulp.task('upload',upload);
+upload.description = "builds theme in the dist directory and then uploads it via SFTP";
+
+gulp.task('default', function () {
+	gulp.watch(config.src + 'css/*.less', gulp.parallel(build));
+});
+
 function clean() {
 	return del(['./dist']);
 }
-
 function html() {
 	var out = config.dist + 'templates',
 		files = gulp.src(config.src + 'templates/**/**/*');
@@ -40,18 +54,12 @@ function css() {
 	return files.pipe(gulp.dest(out));
 }
 
-exports.clean = clean;
-exports.html = html;
-exports.js = js;
-exports.gulpLess = gulpLess;
-exports.css = css;
-
-var styles = gulp.series(gulpLess, css);
-var build = gulp.series(clean, styles, gulp.parallel(html, js));
-
-gulp.task('styles', styles);
-gulp.task('build', build);
-
-gulp.task('default', function () {
-	gulp.watch(config.src + 'css/*.less', gulp.parallel(build));
-});
+function upload() {
+	return gulp.src(config.dist + '**/**/**/*')
+		.pipe(sftp({
+			host: config.host,
+			port: config.port,
+			auth: config.auth,
+			remotePath: config.remotePath + config.name
+		}));
+}

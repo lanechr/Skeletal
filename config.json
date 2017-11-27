@@ -1,9 +1,10 @@
 {
-	"name": "skeletal",
+	"name": "skeletal-gulp",
 	"version": "1.0.0",
-	"host": "host",
+	"host": "sftp.neto.net.au",
+	"port": "4157",
 	"auth": "auth",
-	"remotePath": "/httpdocs/assets/themes",
+	"remotePath": "/httpdocs/assets/themes/",
 	"src": "./src/",
 	"dist": "./dist/"
 }
