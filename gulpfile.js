@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var less = require('gulp-less');
 var path = require('path');
 var fs = require('fs');
+var config = require('./config.json');
 
 gulp.task('less', function () {
 	fs.stat('./src/css/app.less', function(err, stat) {
@@ -14,6 +15,10 @@ gulp.task('less', function () {
 		paths: [ path.join(__dirname, 'less', 'includes') ]
 	}))
 	.pipe(gulp.dest('./src/css/'));
+});
+
+gulp.task('upload', function () {
+	console.log(config.remotePath);
 });
 
 gulp.task('default', function () {

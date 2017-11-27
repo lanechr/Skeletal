@@ -1,0 +1,7 @@
+{
+	"name": "skeletal",
+	"version": "1.0.0",
+	"host": "host",
+	"auth": "auth",
+	"remotePath": "/httpdocs/assets/themes"
+}
