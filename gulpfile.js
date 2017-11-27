@@ -1,26 +1,51 @@
 var gulp = require('gulp');
-var less = require('gulp-less');
-var path = require('path');
-var fs = require('fs');
-var config = require('./config.json');
+	less = require('gulp-less'),
+	path = require('path'),
+	fs = require('fs'),
+	del = require('del'),
+	config = require('./config.json')
 
-gulp.task('less', function () {
-	fs.stat('./src/css/app.less', function(err, stat) {
-		if(err != null) {
-			console.log('Error:' + err.code);
-		}
-	});
-	gulp.src('./src/css/app.less')
-	.pipe(less({
-		paths: [ path.join(__dirname, 'less', 'includes') ]
-	}))
-	.pipe(gulp.dest('./src/css/'));
-});
+function clean() {
+	return del(['./dist']);
+}
 
-gulp.task('upload', function () {
-	console.log(config.remotePath);
-});
+function html() {
+	var out = config.dist + 'templates',
+		files = gulp.src(config.src + 'templates/**/**/*');
+	return files.pipe(gulp.dest(out));
+}
+
+function js() {
+	var out = config.dist + 'js',
+		files = gulp.src(config.src + 'js/**/*.js');
+	return files.pipe(gulp.dest(out));
+}
+
+function gulpLess() {
+	var out = config.src + 'css/';
+	var	files = gulp.src(config.src + 'css/*.less')
+		.pipe(less({ paths: [ path.join(__dirname, 'less', 'includes') ]}));
+	return files.pipe(gulp.dest(out));
+}
+
+function css() {
+	var out = config.dist + 'css',
+		files = gulp.src(config.src + 'css/**/*');
+	return files.pipe(gulp.dest(out));
+}
+
+exports.clean = clean;
+exports.html = html;
+exports.js = js;
+exports.gulpLess = gulpLess;
+exports.css = css;
+
+var styles = gulp.series(gulpLess, css);
+var build = gulp.series(clean, styles, gulp.parallel(html, js));
+
+gulp.task('styles', styles);
+gulp.task('build', build);
 
 gulp.task('default', function () {
-	gulp.watch('./src/css/*.less', ['less']);
+	gulp.watch(config.src + 'css/*.less', gulp.parallel(build));
 });

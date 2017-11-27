@@ -17,10 +17,11 @@
   },
   "homepage": "https://github.com/NetoECommerce/Skeletal",
   "devDependencies": {
-    "gulp": "3.9.0",
-    "gulp-less": "3.0.3"
+    "del": "^3.0.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-less": "3.3.2"
   },
   "dependencies": {
-    "bootstrap": "3.3.6"
+    "bootstrap": "3.3.7"
   }
 }
