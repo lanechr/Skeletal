@@ -11,7 +11,7 @@ var gulp = require('gulp');
 
 var styles = gulp.series(gulpLess, css);
 var build = gulp.series(clean, styles, gulp.parallel(html, js));
-var upload = gulp.series(build, upload);
+var upload = gulp.series(upload);
 
 gulp.task('build', build);
 build.description = "builds theme in the dist directory";
@@ -58,8 +58,11 @@ function upload() {
 	return gulp.src(config.dist + '**/**/**/*')
 		.pipe(sftp({
 			host: config.host,
+			user: config.user,
 			port: config.port,
-			auth: config.auth,
+			key: {
+				location:config.rsa
+			},
 			remotePath: config.remotePath + config.name
 		}));
 }
