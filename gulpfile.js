@@ -1,15 +1,12 @@
-var gulp = require('gulp');
-	less = require('gulp-less'),
-	babel = require('gulp-babel'),
-	concat = require('gulp-concat'),
-	uglify = require('gulp-uglify'),
-	sftp = require('gulp-sftp'),
+var gulp = require('gulp'),
+	gulpLoadPlugins = require('gulp-load-plugins'),
 	path = require('path'),
 	fs = require('fs'),
 	del = require('del'),
 	config = require('./config.json')
+	plugins = gulpLoadPlugins();
 
-var styles = gulp.series(gulpLess, css);
+var styles = gulp.series(less, css);
 var build = gulp.series(clean, styles, gulp.parallel(html, js));
 var upload = gulp.series(upload);
 
@@ -35,18 +32,19 @@ function html() {
 function js() {
 	var out = config.dist + 'js',
 		files = gulp.src(config.src + 'js/**/*.js')
-					.pipe(babel())
-					.pipe(uglify())
-					.pipe(concat('custom.min.js'))
+					.pipe(plugins.babel())
+					.pipe(plugins.uglify())
+					.pipe(plugins.concat('custom.min.js'))
 	return files.pipe(gulp.dest(out));
 }
 
-function gulpLess() {
+function less() {
 	var out = config.src + 'css/';
 	var	files = gulp.src(config.src + 'css/*.less')
-		.pipe(less({ paths: [ path.join(__dirname, 'less', 'includes') ]}));
+		.pipe(plugins.less({ paths: [ path.join(__dirname, 'less', 'includes') ]}));
 	return files.pipe(gulp.dest(out));
 }
+less.taskName = "gulpLess";
 
 function css() {
 	var out = config.dist + 'css',
@@ -56,7 +54,7 @@ function css() {
 
 function upload() {
 	return gulp.src(config.dist + '**/**/**/*')
-		.pipe(sftp({
+		.pipe(plugins.sftp({
 			host: config.host,
 			user: config.user,
 			port: config.port,
