@@ -40,7 +40,7 @@ function js() {
 
 function less() {
 	var out = config.src + 'css/';
-	var	files = gulp.src(config.src + 'css/*.less')
+	var	files = gulp.src(config.src + 'css/less/*.less')
 		.pipe(plugins.less({ paths: [ path.join(__dirname, 'less', 'includes') ]}));
 	return files.pipe(gulp.dest(out));
 }
