@@ -13,15 +13,17 @@ var upload = gulp.series(upload);
 gulp.task('build', build);
 build.description = "builds theme in the dist directory";
 
-gulp.task('upload',upload);
+gulp.task('upload', upload);
 upload.description = "builds theme in the dist directory and then uploads it via SFTP";
+
+gulp.task('zip', gulp.series(build, plugins.shell.task([ 'bin/compile' ])));
 
 gulp.task('default', function () {
 	gulp.watch(config.src + 'css/*.less', gulp.parallel(build));
 });
 
 function clean() {
-	return del(['./dist']);
+	return del(['./dist', './clean']);
 }
 function html() {
 	var out = config.dist + 'templates',
@@ -34,7 +36,7 @@ function js() {
 		files = gulp.src(config.src + 'js/**/*.js')
 					.pipe(plugins.babel())
 					.pipe(plugins.uglify())
-					.pipe(plugins.concat('custom.min.js'))
+					.pipe(plugins.concat('custom.js'))
 	return files.pipe(gulp.dest(out));
 }
 
