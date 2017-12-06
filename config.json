@@ -1,10 +1,7 @@
 {
 	"name": "skeletal-gulp",
 	"version": "1.0.0",
-	"host": "sftp.production.neto.net.au",
-	"user": "phil@design.neto.com.au",
-	"port": "4157",
-	"rsa": "/Users/philconnah/Documents/keys/phil",
+	"host": "sftp.neto.net.au",
 	"remotePath": "/httpdocs/assets/themes/",
 	"src": "./src/",
 	"dist": "./dist/"

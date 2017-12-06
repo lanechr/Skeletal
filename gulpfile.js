@@ -40,7 +40,7 @@ function js() {
 
 function less() {
 	var out = config.src + 'css/';
-	var	files = gulp.src(config.src + 'css/less/*.less')
+	var	files = gulp.src(config.src + 'css/less/app.less')
 		.pipe(plugins.less({ paths: [ path.join(__dirname, 'less', 'includes') ]}));
 	return files.pipe(gulp.dest(out));
 }
@@ -56,11 +56,7 @@ function upload() {
 	return gulp.src(config.dist + '**/**/**/*')
 		.pipe(plugins.sftp({
 			host: config.host,
-			user: config.user,
-			port: config.port,
-			key: {
-				location:config.rsa
-			},
+			auth: 'keyMain',
 			remotePath: config.remotePath + config.name
 		}));
 }
