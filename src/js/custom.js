@@ -147,66 +147,68 @@ var nCustom = {
 					? $(element).addClass(css)
 					: $(element).removeClass(css)
 			}
+		},
+		bindEventListeners: function (){
+			// Capture the current element the user focused in
+			$(document).on('focusin', function(){
+				nCustom.vars.focused = document.activeElement;
+			});
+			// Btn loading state
+			$(document).on("click", ".btn-loads", nCustom.funcs.buttonLoading);
+			// Social media share
+			$(".js-social-share").on("click", function(e) {
+				e.preventDefault();
+				nCustom.funcs.windowPopup($(this).attr("href"), 500, 300);
+			});
+			// Invoice page
+			$("#cart_items").on("click", "[data-body-add]", function(e){
+				e.preventDefault();
+				nCustom.funcs.classToggle('body', $(this).attr('data-body-add'), 'add');
+			});
+			$("#cart_items").on("click", "[data-body-remove]", function(e){
+				e.preventDefault();
+				nCustom.funcs.classToggle('body', $(this).attr('data-body-remove'), 'remove');
+			});
+			$('#_jstl__buying_options').on('click', '.js-notifymodal-in-stock', function(e){
+				e.preventDefault();
+				// Get values
+				var sku = $(this).attr('data-sku');
+				var $wrapper = $('#notifymodal .checkbox');
+				var $terms = $('#notifymodal .terms_box');
+				var $helpText = $('#notifymodal .checkbox .help-block');
+				// Validate form
+				if(!$.isChecked($terms)){
+					$wrapper.addClass('has-error');
+					$helpText.removeClass('hidden');
+					return false;
+				}else{
+					$wrapper.removeClass('has-error');
+					$helpText.addClass('hidden');
+					// Dismiss modal
+					$('#notifymodal').modal('hide');
+					// Send information
+					$.addNotifyBackInStock(sku, '');
+					$terms.attr('checked', false);
+					return true;
+				}
+			});
+		},
+		init: function(){
+			// Neto functionality
+			$.initPageFuncs();
+			// Create MutationObserver for nPopup
+			nCustom.funcs.popupFocus();
+			// Call event listeners
+			nCustom.funcs.bindEventListeners();
+			// Jquery Ui Date Picker
+			$(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
+			// Carousel
+			$('.carousel').carousel();
 		}
 	}
 }
 
 $(document).ready(function() {
-	// Neto functionalty
-	$.initPageFuncs();
-	nCustom.funcs.popupFocus();
-	// Jquery Ui Date Picker
-	$(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
-	// Carousel
-	$('.carousel').carousel();
+	nCustom.funcs.init();
 });
-// Tooltip
-$('.tipsy').tooltip({trigger:'hover',placement:'bottom'});
-// Capture the current element the user focused in
-$(document).on('focusin', function(){
-	nCustom.vars.focused = document.activeElement;
-});
-// Btn loading state
-$(document).on("click", ".btn-loads", nCustom.funcs.buttonLoading);
-// Social media share
-$(".js-social-share").on("click", function(e) {
-	e.preventDefault();
-	nCustom.funcs.windowPopup($(this).attr("href"), 500, 300);
-});
-// Mobile menu
-$('.nToggleMenu').click(function(){
-	var toggleTarget = $(this).attr('data-target')
-	$(toggleTarget).slideToggle();
-});
-// Invoice page
-$("#cart_items").on("click", "[data-body-add]", function(e){
-	e.preventDefault();
-	nCustom.funcs.classToggle('body', $(this).attr('data-body-add'), 'add');
-});
-$("#cart_items").on("click", "[data-body-remove]", function(e){
-	e.preventDefault();
-	nCustom.funcs.classToggle('body', $(this).attr('data-body-remove'), 'remove');
-});
-$('#_jstl__buying_options').on('click', '.js-notifymodal-in-stock', function(e){
-	e.preventDefault();
-	// Get values
-	var sku = $(this).attr('data-sku');
-	var $wrapper = $('#notifymodal .checkbox');
-	var $terms = $('#notifymodal .terms_box');
-	var $helpText = $('#notifymodal .checkbox .help-block');
-	// Validate form
-	if(!$.isChecked($terms)){
-		$wrapper.addClass('has-error');
-		$helpText.removeClass('hidden');
-		return false;
-	}else{
-		$wrapper.removeClass('has-error');
-		$helpText.addClass('hidden');
-		// Dismiss modal
-		$('#notifymodal').modal('hide');
-		// Send information
-		$.addNotifyBackInStock(sku, '');
-		$terms.attr('checked', false);
-		return true;
-	}
-});
+
