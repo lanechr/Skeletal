@@ -1,4 +1,27 @@
 <aside class="col-12 col-md-3" id="left-sidebar">
+	[%if [@page_type@] eq 'category'%]
+		[%SITE_VALUE id:'footer_javascript'%]
+			<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
+			<script type="text/javascript">
+				var productThumbs = $('.products-row article').length,
+					pagination = $('.pagination').length;
+
+				if (productThumbs == [@config:thumb_limit@] || pagination == 1) {
+					$('.products-row')
+						.infiniteScroll({
+							path: '.page-next',
+							append: '.products-row article',
+							history: false,
+							hideNav: '.pagination',
+							status: '.nLoading',
+						})
+						.on( 'last.infiniteScroll', function( event, response, path ) {
+							$('.nLoading').hide();
+						});
+				}
+			</script>
+		[%/SITE_VALUE%]
+	[%/if%]
 	[%IF [@page_type@] eq 'category' and [@config:show_filters@]%]
 		<div class="card mb-2">
 			<div class="card-header border-bottom">

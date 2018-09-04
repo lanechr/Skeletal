@@ -97,7 +97,7 @@
 						</div>
 					</div>
 					[%IF [@total_results@] > [@config:thumb_limit@]%]
-						<div class="row">
+						<div class="row d-none">
 							<div class="col-12">
 								<hr aria-hidden="true"/>
 								<nav aria-label="Page navigation">
@@ -106,12 +106,17 @@
 											[%param *previous_page%]<li class="page-item"><a class="page-link" href="[@url@]" aria-label="Go back one page"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>[%/param%]
 											[%param *goback_pages%]<li class="page-item"><a class="page-link" href="[@url@]" aria-label="Go to page [@page@]">[@page@]</a></li>[%/param%]
 											[%param *current_page%]<li class="page-item active"><a class="page-link" href="[@url@]" aria-label="Current page">[@page@]</a></li>[%/param%]
-											[%param *gonext_pages%]<li class="page-item"><a href="[@url@]" class="page-link" aria-label="Go to page [@page@]">[@page@]</a></li>[%/param%]
-											[%param *next_page%]<li class="page-item"><a class="page-link" href="[@url@]" aria-label="Go forward one page"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>[%/param%]
+											[%param *gonext_pages%]<li><a href="[@url@]" class="page-link" aria-label="Go to page [@page@]">[@page@]</a></li>[%/param%]
+											[%param *next_page%]<li class="page-item"><a class="page-link page-next" href="[@url@]" aria-label="Go forward one page"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>[%/param%]
 										[%/paging%]
 									</ul>
 								</nav>
 								<hr aria-hidden="true"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<div class="nLoading"></div>
 							</div>
 						</div>
 					[%/IF%]
