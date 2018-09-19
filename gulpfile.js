@@ -5,6 +5,7 @@ var postcss = require('gulp-postcss');
 var cssnext = require('postcss-cssnext');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
+var replace = require('gulp-replace');
 
 var config = {};
 config.src = './src';
@@ -16,7 +17,8 @@ config.CSS = config.src + '/css';
 gulp.task('sass', function() {
 	var plugins = [ cssnext ];
 	return gulp.src(config.SCSS +'/*.scss')
-		.pipe(sass())
+		.pipe(sass({outputStyle: 'expanded'}))
+		.pipe(replace('/*!', '/*'))
 		.pipe(postcss(plugins))
 		.pipe(gulp.dest(config.CSS))
 });
